@@ -1,0 +1,94 @@
+@mixin center-children {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin center($width: null, $height: null) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  @if not $width and not $height {
+      transform: translate(-50%, -50%);
+  } @else if $width and $height {
+      width: $width;
+      height: $height;
+      margin: -($width / 2) #{0 0} -($height / 2);
+  } @else if not $height {
+      width: $width;
+      margin-left: -($width / 2);
+      transform: translateY(-50%);
+  } @else {
+      height: $height;
+      margin-top: -($height / 2);
+      transform: translateX(-50%);
+  }
+}
+
+
+
+@mixin ellipsisBasic($clamp:2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $clamp;
+}
+
+
+/*
+* 管理zIndex层级
+*/
+
+$z-layers: (
+  "goku":            9001, 
+  "shoryuken":       8000,
+  "modal": (
+    "base":           500,
+    "close":          100,
+    "header":          50,
+    "footer":          10
+  ),
+  "default":            1,
+  "below":             -1,
+  "bottomless-pit": -9000
+);
+
+@function map-has-nested-keys($map, $keys...) {
+  @each $key in $keys {
+    @if not map-has-key($map, $key) {
+      @return false;
+    }
+    $map: map-get($map, $key);
+  }
+  
+  @return true;
+}
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+ 
+  @return $map;
+}
+@function z($layers...) {
+  @if not map-has-nested-keys($z-layers, $layers...) {
+    @warn "不存在 `#{inspect($layers...)}`";
+  }
+ 
+  @return map-deep-get($z-layers, $layers...);
+}
+
+
+/**
+* 绝对定位
+*/
+
+@mixin abs-pos ($top: auto, $right: auto, $bottom: auto, $left: auto) {
+  position: absolute;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}

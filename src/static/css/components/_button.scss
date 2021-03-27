@@ -1,0 +1,22 @@
+// 按钮圆角
+$btn-radius: 5px;
+$btn-width: 70px;
+$btn-height: 45px;
+$btn-bg-color: #409eff;
+$btn-font-color: #fff;
+
+@mixin  el-btn ($bg-color: $btn-bg-color, $color: $btn-font-color,$radius: $btn-radius) {
+    background-color: $bg-color;
+    color: $btn-font-color;
+    border-radius: $btn-radius;
+    padding: 15px;
+    transition: all ease .7s; 
+    text-align: center;
+    cursor: pointer;
+
+    &:hover{
+      transition: all ease .7s;
+      opacity: .7;
+    }
+    
+}
